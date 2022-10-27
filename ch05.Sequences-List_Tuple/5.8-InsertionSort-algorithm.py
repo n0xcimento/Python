@@ -7,6 +7,8 @@ the sorted list to evaluate the validity of your function.
 import random
 
 def insertion_sort(_list):
+    '''It sorts the passed list in ascending order'''
+
     for i in range(1, len(_list)):
         key = _list[i]
 
@@ -20,6 +22,7 @@ def insertion_sort(_list):
     return _list
 
 
+# Unsorted list
 ul = [ random.randrange(0, 100) for x in range(10)]
 
 print(ul)

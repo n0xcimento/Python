@@ -45,4 +45,5 @@ based on an extract of a book.'
 
 msg = 'help me'
 
+print('\'help me\' on encrypt are:', end=' ')
 print(encrypt(msg, encrypt_key(extract_book_text)))
