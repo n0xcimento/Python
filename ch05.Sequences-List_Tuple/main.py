@@ -1,9 +1,11 @@
+import operator
 
-invoice_list = [('83', 'Electric sander', 7, 57.98), ('24', 'Power saw', 18, 99.99),
-('7', 'Sledge hammer', 11, 21.50), ('77', 'Hammer', 76, 11.99), ('39', 'Jig saw', 3, 79.50)]
+name_lastname = [('allana', 'alves'), ('alzenir', 'correa'), ('cristina sousa', ('yuri', 'nascimento'), ('felipe', 'borges'))]
 
+def find_user(key):
+    return key == 'nascimento'
 
-# print(invoice_list)
-for idd, desc, qty, pr in invoice_list:
-    
-    print(f'{idd}\t{desc}\t{qty}\t{pr}')
+print(name_lastname)
+user = filter(find_user, operator.itemgetter(name_lastname, 1))
+
+print(user)
