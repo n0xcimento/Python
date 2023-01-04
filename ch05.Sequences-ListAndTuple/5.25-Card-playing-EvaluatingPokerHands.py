@@ -6,18 +6,47 @@ Output the shuffled cards in four-column format.
 
 Create a function that deal a five-card poker hand as a list of five card tuples. Then create functions
 that determine whether the hand they receive as an argument contains patterns to win.
-
-Write a script that deals two five-card poker hands, evaluates each hand and determines which wins.
-As each card is dealt, it should be removed from the deck.
 '''
 
 from random import shuffle, randint
-from operator import itemgetter
 
 FACES = ['ás', 'dois', 'tres', 'quatro', 'cinco', 'seis', 'sete', 'oito', 'nove', 'dez', 'valete', 'dama', 'rei']
 NAIPES = ['Paus', 'Ouros', 'Copas', 'Espadas']
-HAND_RANK = ['One Pair', 'Two Pair', 'Three of Kind', 'Straight', 'Flush', 'Full House',\
-             'Four of a Kind', 'Straight Flush']
+
+
+def display_deck(deck):
+    '''Output the shuffled cards in four-column format.'''
+
+    for indx,card in enumerate(deck):
+        hold = f'{card[0]} de {card[1]}'
+        print(f'{hold:20s}', end='')
+        if (indx+1)%4 == 0:
+            print()
+
+
+def initialize_deck():
+    '''Initialie the deck of card tuple with 'ás' through 'rei' of each suit. So, geranate the
+    deck card as a list of tuples as "(FACE, NAIPE)" and flush the deck.'''
+
+    deck = list()
+    for n in NAIPES:
+        for f in FACES:
+            deck.append((f, n))
+
+    shuffle(deck) # Embaralha as cartas
+    return deck
+
+
+def pokerCardDeal(flushed_deck):
+    '''Deal a Poker hand of five cardas as a list of tuples.'''
+
+    five_cards = list()
+
+    while len(five_cards) < 5:
+        card = flushed_deck[randint(0, 51)]
+        if card not in five_cards:
+            five_cards.append(card)
+    return five_cards
 
 
 def onlyFaces(pokerHand):
@@ -36,51 +65,7 @@ def onlyNaipes(pokerHand):
     return l
 
 
-def display_deck(deck):
-    '''Output the shuffled cards in four-column format.'''
-
-    for indx,card in enumerate(deck):
-        hold = f'{card[0]} de {card[1]}'
-        print(f'{hold:20s}', end='')
-        if (indx+1)%4 == 0:
-            print()
-
-def display_pokerHand(pokerHand):
-    '''Display the card as "FACE de SUITE"'''
-
-    for card in pokerHand:
-        faceSuite = ''.join([card[0], ' de ', card[1]])
-        print(f'|{faceSuite:^17}|')
-
-
-def initialize_deck():
-    '''Initialie the deck of card tuple with 'ás' through 'rei' of each suit. So, geranate the
-    deck card as a list of tuples as "(FACE, NAIPE)" and flush the deck.'''
-
-    deck = list()
-    for n in NAIPES:
-        for f in FACES:
-            deck.append((f, n))
-
-    shuffle(deck) # Embaralha as cartas
-    return deck
-
-
-def pokerCardDeal(flushed_deck):
-    '''Deal a Poker hand of five cards as a list of tuples from the deck.'''
-
-    five_cards = list()
-
-    while len(five_cards) < 5:
-        card = flushed_deck[randint(0, len(flushed_deck)-1)]
-        flushed_deck.remove(card)
-        five_cards.append(card)
-
-    five_cards.sort(key=itemgetter(1))
-    return five_cards
-
-
-def is_one_pair(pokerHand):
+def is_pair(pokerHand):
     '''A hand that contains two cards of one rank and three cards of three other ranks.'''
 
     # facelist stores only faces from pokerHand tuples list
@@ -186,69 +171,20 @@ def is_straight_flush(pokerHand):
     '''A straight flush is a hand that contains five cards of sequential rank, all of the same suit.'''
     
     # if the poker hand is a flush and is a straight, then the poker hand is a straight-flush
-    if (not is_flush(pokerHand)) or (not is_straight(pokerHand)):
+    if (not is_flush(poker)) or (not is_straight(pokerHand)):
         return False
     return True
 
 
-def evaluationHand(pokerHand):
-    '''Evaluate the rank of the gived poker hand.'''
-
-    if is_straight_flush(pokerHand):
-        return 7
-    elif is_four_of_kind(pokerHand):
-        return 6
-    elif is_full_house(pokerHand):
-        return 5
-    elif is_flush(pokerHand):
-        return 4
-    elif is_straight(pokerHand):
-        return 3
-    elif is_three_of_kind(pokerHand):
-        return 2
-    elif is_two_pair(pokerHand):
-        return 1
-    elif is_one_pair(pokerHand):
-        return 0
-    else:
-        return -1
-
-
-def display_player(id, pokerHand):
-    print(f'+{"-"*17}+')
-    print(f'|{"Player 0x1":^17}|')
-    print(f'+{"-"*17}+')
-    display_pokerHand(hand1)
-
-
-def main():
-
-    flushed_deck = initialize_deck()
-    hand1 = pokerCardDeal(flushed_deck)
-    hand2 = pokerCardDeal(flushed_deck)
-    a = evaluationHand(hand1)
-    b = evaluationHand(hand2)
-
-    display_player('0x1')
-    display_player('0x2')
-
-    print(f'+{"-"*17}+')
-    print(f'|{"Player 0x1":^17}|')
-    print(f'+{"-"*17}+')
-    display_pokerHand(hand1)
-
-    print(f'\n+{"-"*17}+')
-    print(f'|{"Player 0x2":^17}|')
-    print(f'+{"-"*17}+')
-    display_pokerHand(hand2)
-
-    if a > b:
-        print(f'\nPlayer 0x1 won with [{HAND_RANK[a]}]')
-    elif a < b:
-        print(f'\nPlayer 0x2 won with [{HAND_RANK[b]}]')
-    else:
-        print(f'\nNo winner')
-
-
-if __name__ == '__main__':
-    main()
+# d = initialize_deck()
+# poker = pokerCardDeal(d)
+poker = [('rei', 'Paus'), ('dez', 'Paus'), ('ás', 'Paus'), ('dama', 'Paus'), ('valete', 'Paus')]
+print(poker)
+print('one pair',is_pair(poker))
+print('two pair', is_two_pair(poker))
+print('three of kinds', is_three_of_kind(poker))
+print('straight', is_straight(poker))
+print('Flush', is_flush(poker))
+print('Full House', is_full_house(poker))
+print('Four of a kind', is_four_of_kind(poker))
+print('Straight Flush', is_straight_flush(poker))
