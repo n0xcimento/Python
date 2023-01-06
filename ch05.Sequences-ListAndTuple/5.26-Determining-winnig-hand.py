@@ -214,11 +214,12 @@ def evaluationHand(pokerHand):
         return -1
 
 
-def display_player(id, pokerHand):
+def display_player(player_id, pokerHand):
+    player = ''.join(['Player ', player_id])
     print(f'+{"-"*17}+')
-    print(f'|{"Player 0x1":^17}|')
+    print(f'|{player:^17}|')
     print(f'+{"-"*17}+')
-    display_pokerHand(hand1)
+    display_pokerHand(pokerHand)
 
 
 def main():
@@ -229,18 +230,8 @@ def main():
     a = evaluationHand(hand1)
     b = evaluationHand(hand2)
 
-    display_player('0x1')
-    display_player('0x2')
-
-    print(f'+{"-"*17}+')
-    print(f'|{"Player 0x1":^17}|')
-    print(f'+{"-"*17}+')
-    display_pokerHand(hand1)
-
-    print(f'\n+{"-"*17}+')
-    print(f'|{"Player 0x2":^17}|')
-    print(f'+{"-"*17}+')
-    display_pokerHand(hand2)
+    display_player('0x1', hand1)
+    display_player('0x2', hand2)
 
     if a > b:
         print(f'\nPlayer 0x1 won with [{HAND_RANK[a]}]')
